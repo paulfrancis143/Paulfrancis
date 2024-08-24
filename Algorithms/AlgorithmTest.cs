@@ -1,3 +1,4 @@
+using Xunit;
 namespace DeveloperSample.Algorithms
 {
     public class AlgorithmTest
