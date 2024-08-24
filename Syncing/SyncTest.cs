@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DeveloperSample.Syncing
@@ -7,15 +8,15 @@ namespace DeveloperSample.Syncing
     public class SyncTest
     {
         [Fact]
-        public void CanInitializeCollection()
+        public async Task CanInitializeCollectionAsync()
         {
             var debug = new SyncDebug();
             var items = new List<string> { "one", "two" };
-            var result = debug.InitializeList(items);
+            var result = await debug.InitializeListAsync(items);
             Assert.Equal(items.Count, result.Count);
         }
 
-        [Fact(Skip="Not implemented")]
+        [Fact]
         public void ItemsOnlyInitializeOnce()
         {
             var debug = new SyncDebug();
@@ -26,9 +27,11 @@ namespace DeveloperSample.Syncing
                 Interlocked.Increment(ref count);
                 return i.ToString();
             });
-
+            
             Assert.Equal(100, count);
+
             Assert.Equal(100, dictionary.Count);
+            Assert.True(dictionary.Keys.All(k => k >= 0 && k < 100));
         }
     }
 }
